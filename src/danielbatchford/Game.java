@@ -9,7 +9,6 @@ public class Game implements Constants {
     Tile[][] tiles;
     Random random;
 
-
     Game() {
         random = new Random();
 
@@ -18,7 +17,13 @@ public class Game implements Constants {
         tiles[random.nextInt(BOARD_X)][random.nextInt(BOARD_Y)] = new Tile();
     }
 
-    void step(int[] dir) {
+    public Game(Game game){
+        this.tiles = game.tiles;
+        this.random = game.random;
+    }
+
+
+    public void step(int[] dir) {
 
         boolean moved = true;
         while (moved) {
@@ -65,5 +70,27 @@ public class Game implements Constants {
 
         int[] newTilePos = choices.get(random.nextInt(choices.size()));
         tiles[newTilePos[0]][newTilePos[1]] = new Tile();
+    }
+
+    public void step(Direction direction){
+        int[] dir;
+        switch (direction) {
+            case UP:
+                dir = new int[]{0, -1};
+                break;
+            case DOWN:
+                dir = new int[]{0, 1};
+                break;
+            case LEFT:
+                dir = new int[]{-1, 0};
+                break;
+            case RIGHT:
+                dir = new int[]{1, 0};
+                break;
+            default:
+                return;
+        }
+
+        this.step(dir);
     }
 }

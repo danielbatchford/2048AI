@@ -1,10 +1,12 @@
 package danielbatchford;
 
+import danielbatchford.ai.Player;
 import processing.core.PApplet;
 
 public class Renderer extends PApplet implements Constants {
 
     Game game;
+    Player player;
 
     public static void main(String[] args) {
         PApplet.main("danielbatchford.Renderer");
@@ -20,7 +22,12 @@ public class Renderer extends PApplet implements Constants {
 
     @Override
     public void setup() {
+
+        surface.setTitle("2048 AI");
+
         game = new Game();
+        player = new Player(game, searchDepth);
+
         stroke(STROKE_COL[0], STROKE_COL[1], STROKE_COL[2]);
         strokeWeight(STROKE_WEIGHT);
 
@@ -51,6 +58,8 @@ public class Renderer extends PApplet implements Constants {
                 text(Integer.toString(t.getValue()), textCenter[0], textCenter[1]);
             }
         }
+
+    player.nextMove();
     }
 
     @Override
@@ -58,6 +67,7 @@ public class Renderer extends PApplet implements Constants {
 
         if (key == 'r') {
             game = new Game();
+            player = new Player(game,searchDepth);
             return;
         }
 
@@ -76,6 +86,8 @@ public class Renderer extends PApplet implements Constants {
                 case RIGHT:
                     dir = new int[]{1, 0};
                     break;
+                default:
+                    return;
             }
 
             game.step(dir);

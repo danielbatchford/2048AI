@@ -31,4 +31,6 @@ public interface Constants {
         put(16384, new int[]{104, 149, 154});
         put(32768, new int[]{90, 114, 132});
     }};
+
+    int searchDepth = 4;
 }
