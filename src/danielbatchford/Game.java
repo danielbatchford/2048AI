@@ -1,51 +1,69 @@
 package danielbatchford;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Game implements Constants {
 
-    // The current tiles on the grid
-    Set<Tile> tiles;
-
+    Tile[][] tiles;
     Random random;
 
-    // Represents the set of all possible tile placements
-    Set<Tile> choiceTiles;
 
     Game() {
-        this.tiles = new HashSet<>();
-        tiles.add(new Tile());
-
         random = new Random();
 
-        // Initialise the possible tile placements
-        choiceTiles = new HashSet<Tile>();
-        for (int x = 0; x < BOARD_X; x++) {
-            for (int y = 0; y < BOARD_Y; y++) {
-                choiceTiles.add(new Tile(new int[]{x, y}));
+        tiles = new Tile[BOARD_X][BOARD_Y];
+
+        tiles[random.nextInt(BOARD_X)][random.nextInt(BOARD_Y)] = new Tile();
+    }
+
+    void step(int[] dir) {
+
+        boolean moved = true;
+        while (moved) {
+            moved = false;
+            for (int x = 0; x < BOARD_X; x++) {
+                for (int y = 0; y < BOARD_Y; y++) {
+                    Tile tile = tiles[x][y];
+                    if (tile == null) {
+                        continue;
+                    }
+
+                    Tile adj;
+                    try {
+                        adj = tiles[x + dir[0]][y + dir[1]];
+                    } catch (IndexOutOfBoundsException e) {
+                        continue;
+                    }
+
+                    if (adj == null) {
+                        tiles[x + dir[0]][y + dir[1]] = new Tile(tile.getValue());
+                        tiles[x][y] = null;
+                        moved = true;
+                    } else if (adj.getValue() == tile.getValue()) {
+                        tiles[x + dir[0]][y + dir[1]] = new Tile(tile.getValue() * 2);
+                        tiles[x][y] = null;
+                        moved = true;
+                    }
+                }
             }
         }
+
+        List<int[]> choices = new ArrayList<>();
+        for (int x = 0; x < BOARD_X; x++) {
+            for (int y = 0; y < BOARD_Y; y++) {
+                if (tiles[x][y] == null) {
+                    choices.add(new int[]{x, y});
+                }
+            }
+
+        }
+        if (choices.size() == 0) {
+            return;
+        }
+
+        int[] newTilePos = choices.get(random.nextInt(choices.size()));
+        tiles[newTilePos[0]][newTilePos[1]] = new Tile();
     }
-
-    boolean step(Direction direction) {
-
-        // Clone the possible choices
-        Set<Tile> choices = new HashSet<Tile>(choiceTiles);
-
-        // Remove all current tiles to prevent overlap
-        choices.removeAll(tiles);
-        int noOfChoices = choices.size();
-
-        // If game is lost, return
-        if (noOfChoices == 0) return false;
-
-        // Build an arraylist from the choice set
-        List<Tile> arrChoices = new ArrayList<Tile>(choices);
-
-        // Add a random element from this choice list
-        tiles.add(arrChoices.get(random.nextInt(arrChoices.size())));
-        return true;
-    }
-
-
 }
