@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Game implements Constants {
 
-    Tile[][] tiles;
+    public Tile[][] tiles;
     Random random;
 
     Game() {

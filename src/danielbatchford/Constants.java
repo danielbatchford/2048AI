@@ -7,8 +7,8 @@ public interface Constants {
     int WIDTH = 1500;
     int HEIGHT = 1500;
     boolean FULLSCREEN = false;
-    int BOARD_X = 5;
-    int BOARD_Y = 5;
+    int BOARD_X = 6;
+    int BOARD_Y = 6;
 
     int[] BG_COL = new int[]{44, 45, 58};
     int[] STROKE_COL = new int[]{44, 45, 58};
@@ -31,6 +31,4 @@ public interface Constants {
         put(16384, new int[]{104, 149, 154});
         put(32768, new int[]{90, 114, 132});
     }};
-
-    int searchDepth = 4;
 }

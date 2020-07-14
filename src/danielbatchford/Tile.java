@@ -14,7 +14,7 @@ public class Tile {
         this(2 * (new Random().nextInt(2) + 1));
     }
 
-    int getValue() {
+    public int getValue() {
         return this.value;
     }
 

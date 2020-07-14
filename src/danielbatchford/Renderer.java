@@ -3,6 +3,8 @@ package danielbatchford;
 import danielbatchford.ai.Player;
 import processing.core.PApplet;
 
+import java.util.Random;
+
 public class Renderer extends PApplet implements Constants {
 
     Game game;
@@ -18,21 +20,24 @@ public class Renderer extends PApplet implements Constants {
         if (FULLSCREEN) {
             fullScreen();
         }
+
     }
 
     @Override
     public void setup() {
 
+        frameRate(5);
+
         surface.setTitle("2048 AI");
 
         game = new Game();
-        player = new Player(game, searchDepth);
+        player = new Player();
 
         stroke(STROKE_COL[0], STROKE_COL[1], STROKE_COL[2]);
         strokeWeight(STROKE_WEIGHT);
 
         //TODO adaptive text resizing
-        textFont(createFont("Arial", 150), 150);
+        textFont(createFont("Arial", 25), 25);
         textAlign(CENTER, CENTER);
     }
 
@@ -49,6 +54,12 @@ public class Renderer extends PApplet implements Constants {
                 if (t == null) continue;
 
                 int[] fillArr = COLOR_MAP.get(t.getValue());
+
+                // If colour out of defined color mappings
+                if (fillArr == null) {
+                    fillArr = new int[]{147, 200, 193};
+                }
+
                 fill(fillArr[0], fillArr[1], fillArr[2]);
                 rect(x * boxSize[0], y * boxSize[1], boxSize[0], boxSize[1]);
 
@@ -58,8 +69,7 @@ public class Renderer extends PApplet implements Constants {
                 text(Integer.toString(t.getValue()), textCenter[0], textCenter[1]);
             }
         }
-
-    player.nextMove();
+        player.nextMove(game);
     }
 
     @Override
@@ -67,12 +77,12 @@ public class Renderer extends PApplet implements Constants {
 
         if (key == 'r') {
             game = new Game();
-            player = new Player(game,searchDepth);
+            player = new Player();
             return;
         }
 
         if (key == CODED) {
-            int[] dir = null;
+            int[] dir;
             switch (keyCode) {
                 case UP:
                     dir = new int[]{0, -1};
