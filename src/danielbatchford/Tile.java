@@ -11,7 +11,7 @@ public class Tile {
     }
 
     public Tile() {
-        this(2 * (new Random().nextInt(2) + 1));
+            this(new Random().nextFloat() < 0.9 ? 2 : 4);
     }
 
     public int getValue() {

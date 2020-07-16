@@ -11,17 +11,23 @@ public class Game implements Constants {
 
     Game() {
         random = new Random();
-
         tiles = new Tile[BOARD_X][BOARD_Y];
-
-        tiles[random.nextInt(BOARD_X)][random.nextInt(BOARD_Y)] = new Tile();
+        addNewTile();
     }
 
-    public Game(Game game){
-        this.tiles = game.tiles;
-        this.random = game.random;
-    }
 
+    // Deep copy constructor
+    public Game(Game other) {
+        Tile[][] newTiles = new Tile[BOARD_X][BOARD_Y];
+        Tile[][] otherTiles  = other.tiles;
+        for(int x = 0; x < BOARD_X; x++){
+            for(int y = 0; y < BOARD_Y; y++){
+                newTiles[x][y] = otherTiles[x][y];
+            }
+        }
+        this.tiles = newTiles;
+        this.random = other.random;
+    }
 
     public void step(int[] dir) {
 
@@ -55,21 +61,6 @@ public class Game implements Constants {
             }
         }
 
-        List<int[]> choices = new ArrayList<>();
-        for (int x = 0; x < BOARD_X; x++) {
-            for (int y = 0; y < BOARD_Y; y++) {
-                if (tiles[x][y] == null) {
-                    choices.add(new int[]{x, y});
-                }
-            }
-
-        }
-        if (choices.size() == 0) {
-            return;
-        }
-
-        int[] newTilePos = choices.get(random.nextInt(choices.size()));
-        tiles[newTilePos[0]][newTilePos[1]] = new Tile();
     }
 
     public void step(Direction direction){
@@ -93,4 +84,25 @@ public class Game implements Constants {
 
         this.step(dir);
     }
+
+    public void addNewTile(){
+
+        List<int[]> choices = new ArrayList<>();
+        for (int x = 0; x < BOARD_X; x++) {
+            for (int y = 0; y < BOARD_Y; y++) {
+                if (tiles[x][y] == null) {
+                    choices.add(new int[]{x, y});
+                }
+            }
+
+        }
+        if (choices.size() == 0) {
+            return;
+        }
+
+        int[] newTilePos = choices.get(random.nextInt(choices.size()));
+        tiles[newTilePos[0]][newTilePos[1]] = new Tile();
+    }
+
+
 }

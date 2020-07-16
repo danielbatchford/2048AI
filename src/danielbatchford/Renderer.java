@@ -26,7 +26,7 @@ public class Renderer extends PApplet implements Constants {
     @Override
     public void setup() {
 
-        frameRate(5);
+        frameRate(30);
 
         surface.setTitle("2048 AI");
 
@@ -37,7 +37,7 @@ public class Renderer extends PApplet implements Constants {
         strokeWeight(STROKE_WEIGHT);
 
         //TODO adaptive text resizing
-        textFont(createFont("Arial", 25), 25);
+        textFont(createFont("Arial", 100), 100);
         textAlign(CENTER, CENTER);
     }
 
@@ -69,12 +69,14 @@ public class Renderer extends PApplet implements Constants {
                 text(Integer.toString(t.getValue()), textCenter[0], textCenter[1]);
             }
         }
-        player.nextMove(game);
+
+        game.step(player.nextMove(game));
+        game.addNewTile();
     }
 
     @Override
     public void keyPressed() {
-
+        System.out.println("KEY PRESSED");
         if (key == 'r') {
             game = new Game();
             player = new Player();
@@ -101,6 +103,7 @@ public class Renderer extends PApplet implements Constants {
             }
 
             game.step(dir);
+            game.addNewTile();
         }
     }
 
