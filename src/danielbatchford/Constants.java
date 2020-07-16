@@ -1,6 +1,7 @@
 package danielbatchford;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public interface Constants {
 
@@ -16,7 +17,7 @@ public interface Constants {
 
     float TEXT_SCALE = 0.2f;
 
-    HashMap<Integer, int[]> COLOR_MAP = new HashMap<Integer, int[]>() {{
+    Map<Integer, int[]> COLOR_MAP = new HashMap<Integer, int[]>() {{
         put(2, new int[]{149, 163, 179});
         put(4, new int[]{141, 192, 189});
         put(8, new int[]{132, 220, 198});

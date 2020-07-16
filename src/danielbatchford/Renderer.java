@@ -8,6 +8,8 @@ public class Renderer extends PApplet implements Constants {
     Game game;
     AIPlayer aiPlayer;
 
+    boolean paused;
+
     public static void main(String[] args) {
         PApplet.main("danielbatchford.Renderer");
     }
@@ -26,6 +28,7 @@ public class Renderer extends PApplet implements Constants {
 
         game = new Game();
         aiPlayer = new AIPlayer();
+        paused = false;
 
         stroke(STROKE_COL[0], STROKE_COL[1], STROKE_COL[2]);
         strokeWeight(STROKE_WEIGHT);
@@ -73,5 +76,35 @@ public class Renderer extends PApplet implements Constants {
         // Move a step in the game based on the returned ai AIPlayer move
         game.step(aiPlayer.nextMove(game));
         game.addNewTile();
+    }
+
+    @Override
+    public void keyPressed(){
+        switch(key){
+            case 'r':
+                game = new Game();
+                break;
+            case 'p':
+                if (paused){
+                    loop();
+                }
+                else{
+                    noLoop();
+                }
+                paused = !paused;
+                break;
+            default:
+
+                // If user pushes a number key, change the speed of the simulation (framerate  = 2^selected number)
+                try{
+                    int mapNo = Integer.parseInt(String.valueOf(key));
+                    frameRate((float) Math.pow(2,mapNo));
+                }
+
+                // To ignore non number keys
+                catch(NumberFormatException ignored){
+                }
+
+        }
     }
 }
