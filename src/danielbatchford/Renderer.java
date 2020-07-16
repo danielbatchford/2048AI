@@ -98,6 +98,9 @@ public class Renderer extends PApplet implements Constants {
                 // If user pushes a number key, change the speed of the simulation (framerate  = 2^selected number)
                 try{
                     int mapNo = Integer.parseInt(String.valueOf(key));
+                    if (mapNo == 0){
+                        mapNo = 10;
+                    }
                     frameRate((float) Math.pow(2,mapNo));
                 }
 

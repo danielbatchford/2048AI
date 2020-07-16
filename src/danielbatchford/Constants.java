@@ -8,8 +8,8 @@ public interface Constants {
     int WIDTH = 1500;
     int HEIGHT = 1500;
 
-    int BOARD_X = 4;
-    int BOARD_Y = 4;
+    int BOARD_X = 6;
+    int BOARD_Y = 6;
 
     int[] BG_COL = new int[]{44, 45, 58};
     int[] STROKE_COL = new int[]{44, 45, 58};
