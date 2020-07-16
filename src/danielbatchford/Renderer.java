@@ -1,14 +1,12 @@
 package danielbatchford;
 
-import danielbatchford.ai.Player;
+import danielbatchford.ai.AIPlayer;
 import processing.core.PApplet;
-
-import java.util.Random;
 
 public class Renderer extends PApplet implements Constants {
 
     Game game;
-    Player player;
+    AIPlayer aiPlayer;
 
     public static void main(String[] args) {
         PApplet.main("danielbatchford.Renderer");
@@ -17,95 +15,63 @@ public class Renderer extends PApplet implements Constants {
     @Override
     public void settings() {
         size(WIDTH, HEIGHT);
-        if (FULLSCREEN) {
-            fullScreen();
-        }
-
     }
 
     @Override
     public void setup() {
 
-        frameRate(30);
+        frameRate(60);
 
         surface.setTitle("2048 AI");
 
         game = new Game();
-        player = new Player();
+        aiPlayer = new AIPlayer();
 
         stroke(STROKE_COL[0], STROKE_COL[1], STROKE_COL[2]);
         strokeWeight(STROKE_WEIGHT);
 
-        //TODO adaptive text resizing
-        textFont(createFont("Arial", 100), 100);
+        textFont(createFont("Arial", TEXT_SCALE * WIDTH / BOARD_X), TEXT_SCALE * WIDTH / BOARD_X);
         textAlign(CENTER, CENTER);
     }
 
+    // Called once every frame by Processing
     @Override
     public void draw() {
 
         background(BG_COL[0], BG_COL[1], BG_COL[2]);
 
+        // The pixel dimensions of each tile on screen
         int[] boxSize = new int[]{WIDTH / BOARD_X, HEIGHT / BOARD_Y};
 
         for (int x = 0; x < BOARD_X; x++) {
             for (int y = 0; y < BOARD_Y; y++) {
                 Tile t = game.tiles[x][y];
+
+                // Skip rendering of blank tiles
                 if (t == null) continue;
 
+                // Retrieve the correct color from the mapping based on the tile value
                 int[] fillArr = COLOR_MAP.get(t.getValue());
 
-                // If colour out of defined color mappings
+                // If colour out of defined color mappings (to allow for "infinite" games)
                 if (fillArr == null) {
                     fillArr = new int[]{147, 200, 193};
                 }
 
+                // Set the fill to this color and render a tile based on x1, y1, width, height. (In pixels)
                 fill(fillArr[0], fillArr[1], fillArr[2]);
                 rect(x * boxSize[0], y * boxSize[1], boxSize[0], boxSize[1]);
 
 
+                // Render text in the center of a tile
                 fill(255, 255, 255);
                 float[] textCenter = new float[]{x * boxSize[0] + (float) (boxSize[0]) / 2, y * boxSize[1] + (float) (boxSize[1]) / 2};
                 text(Integer.toString(t.getValue()), textCenter[0], textCenter[1]);
             }
         }
 
-        game.step(player.nextMove(game));
+        // Move a step in the game based on the returned ai AIPlayer move
+        game.step(aiPlayer.nextMove(game));
         game.addNewTile();
     }
-
-    @Override
-    public void keyPressed() {
-        System.out.println("KEY PRESSED");
-        if (key == 'r') {
-            game = new Game();
-            player = new Player();
-            return;
-        }
-
-        if (key == CODED) {
-            int[] dir;
-            switch (keyCode) {
-                case UP:
-                    dir = new int[]{0, -1};
-                    break;
-                case DOWN:
-                    dir = new int[]{0, 1};
-                    break;
-                case LEFT:
-                    dir = new int[]{-1, 0};
-                    break;
-                case RIGHT:
-                    dir = new int[]{1, 0};
-                    break;
-                default:
-                    return;
-            }
-
-            game.step(dir);
-            game.addNewTile();
-        }
-    }
-
-
 }
