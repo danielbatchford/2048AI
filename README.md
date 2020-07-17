@@ -22,7 +22,7 @@ Else, the cost is a weighted sum of the board column index of the tile multiplie
 sum of the number of adjacent diagonal tiles with matching values.
 ## How To Run
 Clone the repository and run `java -jar 2048AI.jar` in the cloned directory. Settings can be changed by
-modiying the `Constants` interface located at `src/danielbatchford/Constants`.
+modiying the `Constants` interface located at `src/danielbatchford/Constants` and then recompiling the .jar file.
 
 #### Controls
 - Use number keys `0-9` to control the game speed.
