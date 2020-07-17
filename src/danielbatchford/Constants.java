@@ -5,8 +5,8 @@ import java.util.Map;
 
 public interface Constants {
 
-    int WIDTH = 1500;
-    int HEIGHT = 1500;
+    int WIDTH = 1000;
+    int HEIGHT = 1000;
 
     int BOARD_X = 6;
     int BOARD_Y = 6;

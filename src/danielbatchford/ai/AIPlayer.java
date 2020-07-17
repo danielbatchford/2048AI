@@ -73,7 +73,7 @@ public class AIPlayer implements Constants {
                 weightedSum += x * tile.getValue();
                 tileCount++;
 
-                // If all squares are occupied, return an arbituarily large value such that this option is not picked.
+                // If all squares are occupied, return an arbitrarily large value such that this option is not picked.
                 if (tileCount == maxTileCount) {
                     return 100000;
                 }

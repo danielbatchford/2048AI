@@ -72,7 +72,6 @@ public class Renderer extends PApplet implements Constants {
                 text(Integer.toString(t.getValue()), textCenter[0], textCenter[1]);
             }
         }
-
         // Move a step in the game based on the returned ai AIPlayer move
         game.step(aiPlayer.nextMove(game));
         game.addNewTile();
@@ -95,7 +94,7 @@ public class Renderer extends PApplet implements Constants {
                 break;
             default:
 
-                // If user pushes a number key, change the speed of the simulation (framerate  = 2^selected number)
+                // If user pushes a number key, change the speed of the simulation (framerate = 2^selected number)
                 try{
                     int mapNo = Integer.parseInt(String.valueOf(key));
                     if (mapNo == 0){
